@@ -1,0 +1,9 @@
+{
+  "name": "companion-ui",
+  "version": "1.4.0",
+  "description": "UI/UX expert (usability, accessibility, mockups, diagrams) and web front-end expert (Razor views, JavaScript/jQuery, AJAX, popups and dialogs).",
+  "author": {
+    "name": "Gulshan Kundnani"
+  },
+  "keywords": ["ui", "ux", "mockup", "wireframe", "razor", "javascript", "jquery", "popup"]
+}
