@@ -76,12 +76,12 @@ Your 21 requirements are consolidated into 14 skills (overlaps merged to save to
 
 ## Usage Hub (multi-device usage, opt-in)
 
-Each device publishes its own usage to one private artifact, the **Claude Usage Hub**, through your Claude login. No shared folder, no file copying, no extra cost (artifacts, their database and Remote Control are part of the plan). Rows hold token totals, weighted cost, prompt-style counts and compaction candidates per device, app, project and day; never prompt text.
+Each device publishes its own usage to its owner's private artifact, the **Claude Usage Hub**, through your Claude login. No shared folder, no file copying, no extra cost (artifacts, their database and Remote Control are part of the plan). Rows hold token totals, weighted cost, prompt-style counts and compaction candidates per device, app, project and day; never prompt text.
 
 **Once per device**
 1. Install the plugin: `claude plugin marketplace add <this repo or its URL>` (if not added), then `claude plugin install companion-analytics@dev-companion`.
 2. In the Claude desktop app: Settings > turn on **Connect new sessions to Remote Control**. Remote Control lets a session on one PC message sessions on your other PCs under the same login.
-3. Optional: put the hub URL in `%LOCALAPPDATA%\companion-analytics\hub.txt` (the skill has a default).
+3. First device of each person only: say "create my usage hub". It publishes your own private hub (usage rows readable and writable only by you). Other devices find it by its title through your login and remember the link in `%LOCALAPPDATA%\companion-analytics\hub.txt`.
 
 **Then, from any device**
 - `/companion-analytics:sync-usage`: publishes this device and asks one Remote Control session on each other device to publish too. A device is reached only while it is on, the Claude app is open and a session is connected.
