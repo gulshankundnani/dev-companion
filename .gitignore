@@ -1,0 +1,6 @@
+.claude/knowledge/profile.local.md
+.vs/
+*.user
+Thumbs.db
+.DS_Store
+dist/
