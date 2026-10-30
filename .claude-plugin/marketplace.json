@@ -1,0 +1,48 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "dev-companion",
+  "description": "Reusable engineering skills for Claude Code: workflow sequencing, per-project memory and knowledge graph, code reuse, clean code, testing, docs, Git/TFS, C#/SQL and UI/UX expertise.",
+  "owner": {
+    "name": "Gulshan Kundnani"
+  },
+  "metadata": {
+    "version": "1.14.0"
+  },
+  "plugins": [
+    {
+      "name": "companion-core",
+      "source": "./plugins/companion-core",
+      "description": "Core workflow: preflight checklist, project memory, architecture map / knowledge graph, code reuse, clean code, testing, documentation, Git/TFS, token economy, learning loop.",
+      "version": "1.12.0",
+      "category": "development"
+    },
+    {
+      "name": "companion-dotnet",
+      "source": "./plugins/companion-dotnet",
+      "description": "C# / .NET and DB / SQL (SQL Server first) expert skills.",
+      "version": "1.4.0",
+      "category": "development"
+    },
+    {
+      "name": "companion-ui",
+      "source": "./plugins/companion-ui",
+      "description": "UI/UX expert (mockups, usability) and web front-end expert (Razor, JavaScript/jQuery, popups).",
+      "version": "1.4.0",
+      "category": "development"
+    },
+    {
+      "name": "companion-guard",
+      "source": "./plugins/companion-guard",
+      "description": "Opt-in hook: approve the first file edit in each conversation, then file changes proceed without further prompts.",
+      "version": "1.1.0",
+      "category": "development"
+    },
+    {
+      "name": "companion-analytics",
+      "source": "./plugins/companion-analytics",
+      "description": "Opt-in analytics: general analyst skill (data, code, maths, patterns, behaviour, decisions) and Claude Code usage analytics per device, app and project.",
+      "version": "1.2.0",
+      "category": "productivity"
+    }
+  ]
+}
