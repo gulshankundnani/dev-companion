@@ -1,0 +1,9 @@
+{
+  "name": "companion-dotnet",
+  "version": "1.4.0",
+  "description": "C# / .NET and DB / SQL expert skills. Pairs with companion-core.",
+  "author": {
+    "name": "Gulshan Kundnani"
+  },
+  "keywords": ["csharp", "dotnet", "sql", "sql-server", "database"]
+}
