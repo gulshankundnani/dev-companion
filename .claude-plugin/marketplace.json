@@ -6,7 +6,7 @@
     "name": "Gulshan Kundnani"
   },
   "metadata": {
-    "version": "1.14.0"
+    "version": "1.14.1"
   },
   "plugins": [
     {
@@ -41,7 +41,7 @@
       "name": "companion-analytics",
       "source": "./plugins/companion-analytics",
       "description": "Opt-in analytics: general analyst skill (data, code, maths, patterns, behaviour, decisions) and Claude Code usage analytics per device, app and project.",
-      "version": "1.2.0",
+      "version": "1.2.1",
       "category": "productivity"
     }
   ]
