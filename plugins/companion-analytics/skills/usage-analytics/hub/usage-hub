@@ -1,0 +1,406 @@
+<title>Claude Usage Hub</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600&display=swap">
+<style>
+/* Layout: one column of panels; filters sticky on top; tables scroll inside their own box */
+:root {
+  --bg: #f3f5f7; --panel: #ffffff; --fg: #18212b; --muted: #5b6b7b; --line: #dce3ea;
+  --accent: #1f6f8b; --accent-soft: #d7e9f0; --warn: #a85d00; --bad: #b3261e; --ok: #2e7d4f;
+  --s1: #1f6f8b; --s2: #c9762b; --s3: #6a5acd; --s4: #3d9970; --s5: #b04a7a; --s6: #7a8b99;
+  --sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --cond: "IBM Plex Sans Condensed", "IBM Plex Sans", "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", Consolas, ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #11171d; --panel: #18212a; --fg: #e4eaf0; --muted: #93a3b3; --line: #2a3642;
+  --accent: #5fb3d1; --accent-soft: #1d3a47; --warn: #e0a050; --bad: #f08a80; --ok: #6cc595;
+  --s1: #5fb3d1; --s2: #e39a55; --s3: #9d8ff0; --s4: #63c497; --s5: #e07fae; --s6: #9aabb9; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #11171d; --panel: #18212a; --fg: #e4eaf0; --muted: #93a3b3; --line: #2a3642;
+  --accent: #5fb3d1; --accent-soft: #1d3a47; --warn: #e0a050; --bad: #f08a80; --ok: #6cc595;
+  --s1: #5fb3d1; --s2: #e39a55; --s3: #9d8ff0; --s4: #63c497; --s5: #e07fae; --s6: #9aabb9; color-scheme: dark }
+body { background: var(--bg); color: var(--fg); font-family: var(--sans); font-size: 14px; line-height: 1.45 }
+.wrap { max-width: 1180px; margin: 0 auto; padding-block: 20px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 16px }
+header { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: end; justify-content: space-between }
+h1 { font-family: var(--cond); font-size: 26px; margin: 0; letter-spacing: .01em; text-wrap: balance }
+h2 { font-family: var(--cond); font-size: 16px; margin: 0; text-wrap: balance }
+.sub { color: var(--muted); margin: 2px 0 0 }
+.filters { display: flex; flex-wrap: wrap; gap: 8px }
+.filters label { display: grid; gap: 2px; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted) }
+select { font: inherit; font-size: 13px; color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 5px 8px; min-width: 0 }
+select:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px }
+.devices { display: flex; flex-wrap: wrap; gap: 6px }
+.chip { display: inline-flex; gap: 6px; align-items: center; font-size: 12px; padding: 3px 9px; border-radius: 999px; background: var(--panel); border: 1px solid var(--line) }
+.chip i { width: 8px; height: 8px; border-radius: 50%; display: inline-block }
+.chip.stale { border-color: var(--warn) }
+.chip small { color: var(--muted) }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px }
+.kpi { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; min-width: 0 }
+.kpi .v { font-family: var(--mono); font-size: 24px; font-weight: 500; font-variant-numeric: tabular-nums }
+.kpi .l { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted) }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px; display: grid; gap: 10px; min-width: 0 }
+.panel .note { color: var(--muted); font-size: 12px; margin: 0; max-width: 80ch }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 16px }
+.scroll { overflow-x: auto }
+table { border-collapse: collapse; width: 100%; font-size: 13px }
+th, td { padding: 6px 8px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap }
+th { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 500 }
+td.n, th.n { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums }
+tr:last-child td { border-bottom: 0 }
+.bar { position: relative; min-width: 70px }
+.bar span { position: absolute; left: 0; top: 50%; height: 6px; transform: translateY(-50%); background: var(--accent-soft); border-radius: 3px }
+.bar b { position: relative; font-weight: 400 }
+.pill { font-size: 11px; padding: 1px 7px; border-radius: 999px; border: 1px solid currentColor }
+.pill.bad { color: var(--bad) } .pill.warn { color: var(--warn) } .pill.ok { color: var(--ok) }
+#chart svg { display: block; width: 100%; height: auto }
+#chart text { fill: var(--muted); font-size: 11px; font-family: var(--sans) }
+.legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: 12px; color: var(--muted) }
+.legend i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; margin-right: 5px; vertical-align: -1px }
+.tip { position: fixed; pointer-events: none; background: var(--fg); color: var(--bg); font-size: 12px; padding: 5px 8px; border-radius: 5px; font-family: var(--mono) }
+.tips { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px }
+.tips li { display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; align-items: baseline; padding-bottom: 10px; border-bottom: 1px solid var(--line) }
+.tips li:last-child { border-bottom: 0; padding-bottom: 0 }
+.tips strong { font-weight: 600 }
+.tips p { grid-column: 2; margin: 0; color: var(--muted); font-size: 13px; max-width: 90ch }
+.empty { text-align: center; padding: 40px 16px; color: var(--muted) }
+.empty code, .note code { font-family: var(--mono); background: var(--accent-soft); color: var(--fg); padding: 1px 5px; border-radius: 4px }
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Claude Usage Hub</h1>
+      <p class="sub" id="sub">Claude Code token use per device, app and project.</p>
+    </div>
+    <div class="filters">
+      <label for="f-period">Period<select id="f-period">
+        <option value="7">Last 7 days</option><option value="30" selected>Last 30 days</option>
+        <option value="90">Last 90 days</option><option value="0">All time</option></select></label>
+      <label for="f-device">Device<select id="f-device"><option value="">All devices</option></select></label>
+      <label for="f-app">App<select id="f-app"><option value="">All apps</option></select></label>
+    </div>
+  </header>
+  <div class="devices" id="devices"></div>
+
+  <div id="empty" class="panel empty">
+    <h2 id="empty-title">Waiting for the first device</h2>
+    <p id="empty-text">Rows appear here once a device publishes. In any Claude Code session with the companion-analytics plugin, ask <code>publish my usage to the hub</code>, or run <code>/companion-analytics:sync-usage</code> to collect from every connected device.</p>
+  </div>
+
+  <div id="main" hidden style="display:grid;gap:16px">
+    <div class="kpis">
+      <div class="kpi"><div class="l">Weighted cost</div><div class="v" id="k-cost">-</div></div>
+      <div class="kpi"><div class="l">API calls</div><div class="v" id="k-calls">-</div></div>
+      <div class="kpi"><div class="l">Sessions</div><div class="v" id="k-sess">-</div></div>
+      <div class="kpi"><div class="l">Cache read share of tokens</div><div class="v" id="k-cr">-</div></div>
+    </div>
+
+    <section class="panel" id="advice">
+      <h2>Advice from your usage</h2>
+      <p class="note">Worked out from the rows in the current filter. Each tip shows the numbers behind it.</p>
+      <ol class="tips" id="tips"></ol>
+    </section>
+
+    <section class="panel" id="daily">
+      <h2>Weighted cost per day</h2>
+      <div id="chart"></div>
+      <div class="legend" id="legend"></div>
+    </section>
+
+    <div class="grid2">
+      <section class="panel" id="by-device"><h2>Per device</h2><div class="scroll"><table id="t-device"></table></div></section>
+      <section class="panel" id="by-app"><h2>Per device and app</h2><div class="scroll"><table id="t-app"></table></div></section>
+    </div>
+    <section class="panel" id="by-project"><h2>Per project</h2><div class="scroll"><table id="t-project"></table></div></section>
+
+    <section class="panel" id="prompts">
+      <h2>Prompt style vs cost</h2>
+      <p class="note">Short = under 15 words with no file path, code, error text or acceptance criteria. Detailed = 40+ words or 2+ of those signals. Cost per prompt counts every call until the next prompt. Followed by correction = the next prompt says no, instead, still, again or not working. Slash commands are left out.</p>
+      <div class="scroll"><table id="t-style"></table></div>
+    </section>
+
+    <section class="panel" id="compact">
+      <h2>Compaction candidates</h2>
+      <p class="note">Sessions with 10+ calls above the compaction threshold (130k context by default). Saving = cache-read cost avoided by one <code>/compact</code> or a fresh session when context first crossed it.</p>
+      <div class="scroll"><table id="t-compact"></table></div>
+    </section>
+
+    <p class="note">Weighted cost is in input-token equivalents: input 1, cache write 1.25, cache read 0.1, output 5. These are relative weights, not prices; a Team plan has no per-token bill, but the weights track how fast plan limits are used. Day = the day a session started (UTC). No prompt text is stored.</p>
+  </div>
+</div>
+<div class="tip" id="tip" hidden></div>
+
+<script>
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const SERIES = ['--s1', '--s2', '--s3', '--s4', '--s5', '--s6'];
+  const STYLE_LABEL = { short: 'Short / vague', medium: 'Medium', detailed: 'Detailed' };
+  let docs = [];
+
+  function fmt(n) {
+    n = Number(n) || 0;
+    if (n >= 1e9) return (n / 1e9).toFixed(2) + 'B';
+    if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
+    if (n >= 1e3) return Math.round(n / 1e3) + 'k';
+    return String(Math.round(n));
+  }
+  const pct = (a, b) => (b ? Math.round((100 * a) / b) + '%' : '-');
+  function el(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function color(i) { return 'var(' + SERIES[i % SERIES.length] + ')'; }
+
+  function allRows() {
+    const out = [];
+    for (const d of docs) for (const r of (Array.isArray(d.rows) ? d.rows : [])) if (r && r.day) out.push(r);
+    return out;
+  }
+  function filtered(rows) {
+    const days = Number($('f-period').value), dev = $('f-device').value, app = $('f-app').value;
+    let from = '';
+    if (days) { const t = new Date(Date.now() - (days - 1) * 864e5); from = t.toISOString().slice(0, 10); }
+    return rows.filter((r) => (!from || r.day >= from) && (!dev || r.device === dev) && (!app || r.app === app));
+  }
+  function group(rows, keyFn) {
+    const m = new Map();
+    for (const r of rows) {
+      const k = keyFn(r);
+      const g = m.get(k) || { k, sessions: 0, calls: 0, input: 0, cacheWrite: 0, cacheRead: 0, output: 0, cost: 0 };
+      for (const f of ['sessions', 'calls', 'input', 'cacheWrite', 'cacheRead', 'output', 'cost']) g[f] += Number(r[f]) || 0;
+      m.set(k, g);
+    }
+    return [...m.values()].sort((a, b) => b.cost - a.cost);
+  }
+  function fillSelect(sel, values, allLabel) {
+    const cur = sel.value;
+    sel.replaceChildren(new Option(allLabel, ''), ...values.map((v) => new Option(v, v)));
+    sel.value = values.includes(cur) ? cur : '';
+  }
+  function table(t, head, rows) {
+    const thead = el('thead'), tr = el('tr');
+    head.forEach(([label, num]) => tr.append(el('th', num ? 'n' : '', label)));
+    thead.append(tr);
+    const tbody = el('tbody');
+    rows.forEach((cells) => {
+      const r = el('tr');
+      cells.forEach((c) => { if (c instanceof Node) { const td = el('td'); td.append(c); r.append(td); } else r.append(el('td', typeof c === 'number' || /^[\d.,%kMB-]+$/.test(String(c)) ? 'n' : '', String(c))); });
+      tbody.append(r);
+    });
+    t.replaceChildren(thead, tbody);
+  }
+  function costBar(v, max, total) {
+    const td = el('td', 'n bar'), s = el('span'), b = el('b', '', fmt(v) + '  ' + pct(v, total));
+    s.style.width = Math.max(2, (100 * v) / (max || 1)) + '%';
+    td.append(s, b);
+    return td;
+  }
+  function groupTable(t, rows, keyLabel, keyFn, limit) {
+    const g = group(rows, keyFn), total = g.reduce((a, x) => a + x.cost, 0), max = g.length ? g[0].cost : 0;
+    const thead = el('thead'), tr = el('tr');
+    [[keyLabel], ['Sessions', 1], ['Calls', 1], ['Input', 1], ['Cache write', 1], ['Cache read', 1], ['Output', 1], ['Cost, share', 1]]
+      .forEach(([l, n]) => tr.append(el('th', n ? 'n' : '', l)));
+    thead.append(tr);
+    const tbody = el('tbody');
+    g.slice(0, limit || 999).forEach((x) => {
+      const r = el('tr');
+      r.append(el('td', '', x.k));
+      [x.sessions, x.calls].forEach((v) => r.append(el('td', 'n', String(v))));
+      [x.input, x.cacheWrite, x.cacheRead, x.output].forEach((v) => r.append(el('td', 'n', fmt(v))));
+      r.append(costBar(x.cost, max, total));
+      tbody.append(r);
+    });
+    t.replaceChildren(thead, tbody);
+  }
+
+  function drawChart(rows, devices) {
+    const box = $('chart');
+    const byDay = new Map();
+    for (const r of rows) { const d = byDay.get(r.day) || {}; d[r.device] = (d[r.device] || 0) + (Number(r.cost) || 0); byDay.set(r.day, d); }
+    const days = [...byDay.keys()].sort();
+    if (!days.length) { box.replaceChildren(el('p', 'note', 'No usage in this period.')); $('legend').replaceChildren(); return; }
+    const W = Math.max(320, box.clientWidth || 800), H = 220, padL = 52, padB = 24, padT = 8, padR = 8;
+    const totals = days.map((d) => Object.values(byDay.get(d)).reduce((a, b) => a + b, 0));
+    const max = Math.max(...totals) || 1;
+    const step = Math.pow(10, Math.floor(Math.log10(max))), nice = Math.ceil(max / step) * step;
+    const ns = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H); svg.setAttribute('width', '100%');
+    svg.setAttribute('role', 'img'); svg.setAttribute('aria-label', 'Weighted cost per day, stacked by device');
+    const y = (v) => H - padB - ((H - padB - padT) * v) / nice;
+    for (let i = 0; i <= 4; i++) {
+      const v = (nice * i) / 4, yy = y(v);
+      const ln = document.createElementNS(ns, 'line');
+      ln.setAttribute('x1', padL); ln.setAttribute('x2', W - padR); ln.setAttribute('y1', yy); ln.setAttribute('y2', yy);
+      ln.setAttribute('stroke', 'var(--line)'); svg.append(ln);
+      const tx = document.createElementNS(ns, 'text');
+      tx.setAttribute('x', padL - 6); tx.setAttribute('y', yy + 4); tx.setAttribute('text-anchor', 'end'); tx.textContent = fmt(v); svg.append(tx);
+    }
+    const bw = (W - padL - padR) / days.length, gap = Math.min(4, bw * 0.2);
+    const tip = $('tip');
+    days.forEach((d, i) => {
+      let acc = 0;
+      const x = padL + i * bw + gap / 2;
+      devices.forEach((dev, di) => {
+        const v = byDay.get(d)[dev] || 0; if (!v) return;
+        const rect = document.createElementNS(ns, 'rect');
+        rect.setAttribute('x', x); rect.setAttribute('width', Math.max(1, bw - gap));
+        rect.setAttribute('y', y(acc + v)); rect.setAttribute('height', Math.max(0.5, y(acc) - y(acc + v)));
+        rect.setAttribute('fill', color(di));
+        rect.addEventListener('mousemove', (e) => {
+          tip.hidden = false; tip.textContent = d + '  ' + dev + '  ' + fmt(v);
+          const tw = tip.offsetWidth;
+          tip.style.left = Math.min(window.innerWidth - tw - 8, e.clientX + 12) + 'px';
+          tip.style.top = (e.clientY - 34) + 'px';
+        });
+        rect.addEventListener('mouseleave', () => { tip.hidden = true; });
+        svg.append(rect);
+        acc += v;
+      });
+    });
+    const every = Math.ceil(days.length / Math.max(2, Math.floor((W - padL) / 70)));
+    days.forEach((d, i) => {
+      if (i % every) return;
+      const tx = document.createElementNS(ns, 'text');
+      tx.setAttribute('x', padL + i * bw + bw / 2); tx.setAttribute('y', H - 6); tx.setAttribute('text-anchor', 'middle');
+      tx.textContent = d.slice(5); svg.append(tx);
+    });
+    box.replaceChildren(svg);
+    $('legend').replaceChildren(...devices.map((dev, di) => { const s = el('span'); const i = el('i'); i.style.background = color(di); s.append(i, document.createTextNode(dev)); return s; }));
+  }
+
+  function render() {
+    const rows = allRows();
+    const devices = [...new Set(rows.map((r) => r.device))].sort();
+    fillSelect($('f-device'), devices, 'All devices');
+    fillSelect($('f-app'), [...new Set(rows.map((r) => r.app))].sort(), 'All apps');
+
+    // Last collection per device, stale after 3 days
+    const last = new Map();
+    for (const d of docs) if (d.device && (!last.has(d.device) || d.collectedAt > last.get(d.device))) last.set(d.device, d.collectedAt);
+    $('devices').replaceChildren(...devices.map((dev, di) => {
+      const at = last.get(dev) || '', age = at ? (Date.now() - Date.parse(at)) / 864e5 : 99;
+      const c = el('span', 'chip' + (age > 3 ? ' stale' : '')), i = el('i');
+      i.style.background = color(di);
+      c.append(i, document.createTextNode(dev), el('small', '', at ? 'collected ' + at.slice(0, 16).replace('T', ' ') + ' UTC' : ''));
+      return c;
+    }));
+
+    if (!rows.length) { $('empty').hidden = false; $('main').hidden = true; return; }
+    $('empty').hidden = true; $('main').hidden = false;
+    const f = filtered(rows);
+    const sum = (k) => f.reduce((a, r) => a + (Number(r[k]) || 0), 0);
+    const tokens = sum('input') + sum('cacheWrite') + sum('cacheRead') + sum('output');
+    $('k-cost').textContent = fmt(sum('cost'));
+    $('k-calls').textContent = fmt(sum('calls'));
+    $('k-sess').textContent = String(sum('sessions'));
+    $('k-cr').textContent = pct(sum('cacheRead'), tokens);
+    const span = f.length ? f.map((r) => r.day).sort() : [];
+    $('sub').textContent = devices.length + (devices.length === 1 ? ' device' : ' devices') + (span.length ? ', ' + span[0] + ' to ' + span[span.length - 1] : '') + '. Weighted cost, not prices.';
+
+    drawChart(f, devices);
+    groupTable($('t-device'), f, 'Device', (r) => r.device);
+    groupTable($('t-app'), f, 'Device / app', (r) => r.device + ' / ' + r.app);
+    groupTable($('t-project'), f, 'Device / project', (r) => r.device + ' / ' + r.project, 15);
+
+    // Prompt style
+    const st = {};
+    for (const r of f) for (const [k, b] of Object.entries(r.styles || {})) {
+      const s = st[k] || (st[k] = { n: 0, calls: 0, cost: 0, corr: 0 });
+      s.n += Number(b.n) || 0; s.calls += Number(b.calls) || 0; s.cost += Number(b.cost) || 0; s.corr += Number(b.corr) || 0;
+    }
+    const all = Object.values(st).reduce((a, s) => ({ n: a.n + s.n, calls: a.calls + s.calls, cost: a.cost + s.cost, corr: a.corr + s.corr }), { n: 0, calls: 0, cost: 0, corr: 0 });
+    const allRate = all.n ? all.corr / all.n : 0;
+    const styleRow = (label, s) => {
+      const rate = s.n ? s.corr / s.n : 0;
+      const p = el('span', 'pill ' + (rate > allRate * 1.25 ? 'bad' : rate < allRate * 0.8 ? 'ok' : 'warn'), pct(s.corr, s.n));
+      return [label, s.n, s.n ? (s.calls / s.n).toFixed(1) : '-', fmt(s.n ? s.cost / s.n : 0), fmt(s.cost), p];
+    };
+    table($('t-style'), [['Style'], ['Prompts', 1], ['Avg calls', 1], ['Avg cost', 1], ['Total cost', 1], ['Followed by correction']],
+      [...['short', 'medium', 'detailed'].filter((k) => st[k]).map((k) => styleRow(STYLE_LABEL[k], st[k])), styleRow('All', all)]);
+
+    // Compaction candidates
+    const cand = [];
+    for (const r of f) for (const c of (r.compact || [])) cand.push(Object.assign({ device: r.device, project: r.project }, c));
+    cand.sort((a, b) => b.saved - a.saved);
+    table($('t-compact'), [['Device'], ['Project'], ['Started'], ['Calls', 1], ['Calls over', 1], ['Peak context', 1], ['Est. saving', 1]],
+      cand.slice(0, 10).map((c) => [c.device, c.project, String(c.start || '').slice(0, 16).replace('T', ' '), c.calls, c.over, fmt(c.peak), fmt(c.saved) + ' (' + pct(c.saved, c.cost) + ')']));
+    if (!cand.length) $('t-compact').replaceChildren(el('caption', 'note', 'None in this period.'));
+
+    drawAdvice(f, st, cand);
+  }
+
+  // Rule-based tips; each rule fires only when the data shows the pattern
+  function drawAdvice(f, st, cand) {
+    const sum = (k) => f.reduce((a, r) => a + (Number(r[k]) || 0), 0);
+    const cost = sum('cost') || 1, sessions = sum('sessions') || 1;
+    const crCost = 0.1 * sum('cacheRead'), cwCost = 1.25 * sum('cacheWrite'), outCost = 5 * sum('output');
+    const rate = (s) => (s && s.n ? s.corr / s.n : null);
+    const tips = [];
+    const add = (level, title, why) => tips.push({ level, title, why });
+
+    const saved = cand.reduce((a, c) => a + (Number(c.saved) || 0), 0);
+    if (crCost / cost > 0.5) {
+      add(saved / cost > 0.1 ? 'bad' : 'warn', 'Compact long sessions, or start a fresh one per task',
+        'Re-reading earlier context (cache reads) is ' + pct(crCost, cost) + ' of weighted cost. ' +
+        (cand.length ? cand.length + ' sessions ran 10+ calls past the threshold; one /compact each would have saved about ' + pct(saved, cost) + '. ' : '') +
+        'Run /compact at a natural break (after a fix lands), or /clear and start fresh when the topic changes.');
+    }
+    const rs = rate(st.short), rd = rate(st.detailed), rm = rate(st.medium);
+    if (rs != null && st.short.n >= 5 && rs > Math.max(rd || 0, rm || 0) * 1.2) {
+      add('warn', 'Add the file, the expected result and limits to short prompts',
+        'Short prompts are followed by a correction ' + Math.round(100 * rs) + '% of the time, against ' +
+        (rd != null ? Math.round(100 * rd) + '% for detailed ones' : 'less for longer ones') +
+        '. Each correction is another round trip over the whole context. Name the file or method, say what "done" looks like, and say what must not change.');
+    }
+    if (st.short && st.detailed && st.short.n >= 5 && st.detailed.n >= 5) {
+      const cs = st.short.calls / st.short.n, cd = st.detailed.calls / st.detailed.n;
+      if (cd > cs * 1.5) add('ok', 'Split big requests into steps you can check',
+        'Detailed prompts average ' + cd.toFixed(1) + ' calls each, against ' + cs.toFixed(1) + ' for short ones. Long multi-part asks run long tool loops; one goal per prompt keeps each loop short and easy to steer.');
+    }
+    if (outCost / cost > 0.2) {
+      add('warn', 'Ask for less output',
+        'Output is ' + pct(outCost, cost) + ' of weighted cost (output weighs 5x input). Ask for diffs or changed lines instead of whole files, and skip summaries you will not read.');
+    }
+    if (cwCost / cost > 0.2) {
+      add('warn', 'Keep the start of each session lean',
+        'Writing new context to the cache is ' + pct(cwCost, cost) + ' of weighted cost. Big CLAUDE.md files, many always-on skills or MCP tools, and switching model mid-session all rebuild the cache. Trim what loads at start.');
+    }
+    const perSession = cost / sessions;
+    const proj = group(f, (r) => r.project);
+    if (proj.length > 1 && proj[0].cost / cost > 0.4) {
+      add('ok', 'Give ' + proj[0].k + ' a project memory',
+        proj[0].k + ' takes ' + pct(proj[0].cost, cost) + ' of cost. Saved project notes (commands, structure, conventions) stop Claude re-exploring the code in every session.');
+    }
+    const calls = sum('calls');
+    if (calls / sessions > 150) {
+      add('warn', 'Sessions are long: ' + Math.round(calls / sessions) + ' calls on average',
+        'Average session cost is ' + fmt(perSession) + '. Every call re-reads the whole session, so cost grows faster than the work. Aim for one task per session, and hand off with a short summary.');
+    }
+    if (!tips.length) add('ok', 'No costly pattern in this period', 'Sessions stay short, prompts rarely need a correction, and output is modest. Keep going.');
+
+    const order = { bad: 0, warn: 1, ok: 2 }, label = { bad: 'High impact', warn: 'Worth doing', ok: 'Good habit' };
+    tips.sort((a, b) => order[a.level] - order[b.level]);
+    $('tips').replaceChildren(...tips.map((t) => {
+      const li = el('li');
+      li.append(el('span', 'pill ' + t.level, label[t.level]), el('strong', '', t.title), el('p', '', t.why));
+      return li;
+    }));
+  }
+
+  ['f-period', 'f-device', 'f-app'].forEach((id) => $(id).addEventListener('change', render));
+  let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(render, 150); });
+  render();
+
+  (async () => {
+    const db = window.claude && window.claude.use ? await window.claude.use('db') : null;
+    if (!db) {
+      $('empty-title').textContent = 'Sign in to see usage';
+      $('empty-text').textContent = 'The usage rows live in this page’s database, which needs a signed-in Claude account that can open this page.';
+      return;
+    }
+    db.collection('usage').onSnapshot((snap) => { docs = snap.docs.map((d) => d.data() || {}); render(); },
+      () => { $('empty-title').textContent = 'Could not load usage'; $('empty-text').textContent = 'Reload the page to try again.'; $('empty').hidden = false; $('main').hidden = true; });
+  })();
+})();
+</script>
