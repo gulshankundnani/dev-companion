@@ -1,0 +1,27 @@
+{
+  "description": "At session start, injects working rules, the project's .claude/knowledge/INDEX.md (capped) and global preferences. On each prompt, suggests the companion skills that match it (once per conversation each).",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh \"${CLAUDE_PLUGIN_ROOT}/hooks/route.sh\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh \"${CLAUDE_PLUGIN_ROOT}/hooks/load-knowledge.sh\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

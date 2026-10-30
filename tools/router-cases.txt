@@ -1,0 +1,24 @@
+# expected skills (space-separated, in order; - = none) | prompt
+# Run: sh tools/test-router.sh
+companion-core:testing-expert|check the fees payment page for xss and csrf issues
+companion-dotnet:csharp-expert companion-dotnet:sql-expert|add a column to the Orders table in the database and update the controller
+companion-ui:web-frontend-expert|popup goes behind the parent window when opened from the grid
+companion-ui:web-frontend-expert|Reload on close of the fees installment popup
+-|what does the FeesHead controller do in this project?
+-|ok continue with the next one please
+companion-ui:web-frontend-expert|Update Index.cshtml so the table columns line up
+companion-dotnet:sql-expert|write a sql query to list unpaid fees per student
+companion-dotnet:sql-expert companion-core:clean-code|optimize the slow query behind the fees report
+companion-dotnet:sql-expert|stored proc usp_GetFees deadlocks under load, fix it
+companion-analytics:analyst|it is not limited to CSV, Excel, JSON, logs, SQL results. It should be able to analyze code, mathematical equations, pattern, behaviour
+companion-analytics:analyst|what is the trend in monthly fee collections over the last year?
+companion-analytics:analyst|why does the waive-off amount differ from the fine total?
+companion-analytics:analyst|analyse this csv of attendance and find outliers
+companion-dotnet:csharp-expert companion-analytics:analyst|investigate the controller that calculates fines and fix the rounding
+companion-analytics:analyst|solve x^2 - 5x + 6 = 0 and prove both roots are correct
+companion-analytics:analyst|compare option A and option B for the fees template design
+-|also add a skill for analytics on SQL Server and JSON data to the plugin
+companion-core:git-tfs|commit the plugin changes and push the branch
+-|how do I run the tests in this repo?
+companion-core:testing-expert|write unit tests for the fine calculation service
+-|This session is being continued from a previous conversation that ran out of context. Fix the controller and the sql query.

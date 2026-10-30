@@ -1,0 +1,29 @@
+{
+  "description": "Consent guard: asks you to approve the first file edit/write in each conversation; after that approval, file changes in that conversation proceed without further prompts.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.sh\" check",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.sh\" approved",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}
