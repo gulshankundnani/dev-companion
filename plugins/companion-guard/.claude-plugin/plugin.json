@@ -1,0 +1,9 @@
+{
+  "name": "companion-guard",
+  "version": "1.1.0",
+  "description": "Opt-in guard: prompts you to approve the first file edit or write in each conversation, then allows file changes for the rest of that conversation.",
+  "author": {
+    "name": "Gulshan Kundnani"
+  },
+  "keywords": ["consent", "safety", "permissions"]
+}
