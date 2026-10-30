@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.2.1 analytics - 2026-10-30
+- The hub page now ships in the plugin (`usage-analytics/hub/usage-hub.html`). "create my usage hub" publishes a private hub per person with owner-only database rules; devices without `hub.txt` find the hub by title ("Claude Usage Hub") through the account. The built-in default hub link is removed, so other users never write to someone else's hub.
+
 ## 1.12.0 core - 2026-10-30
 - Thorough testing: `testing-expert` requires happy path, edge/invalid inputs and error paths for every change, plus security tests when input, auth, data access, HTML, files or external calls are touched.
 - New `testing-expert/references/thorough-tests.md` (read only when needed): edge cases and server-side validation bypass, over-posting, brute force and sessions, access control/IDOR, SQL/command/path/header injection, open redirect, SSRF, XSS (stored, reflected, DOM), CSRF, sniffing (network, MIME, SQL parameter sniffing), DB connection and HttpClient pooling, thread pool, OWASP misconfiguration and vulnerable packages; payloads, pass criteria and a report format. Security tests only on local/dev environments of the user's own app.
