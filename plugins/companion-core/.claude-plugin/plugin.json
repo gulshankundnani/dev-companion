@@ -1,6 +1,6 @@
 {
   "name": "companion-core",
-  "version": "1.13.0",
+  "version": "1.14.0",
   "description": "Core engineering workflow: preflight, project memory, architecture map / knowledge graph, code reuse, clean code, testing, documentation, Git/TFS, token economy, learning loop.",
   "author": {
     "name": "Gulshan Kundnani"
