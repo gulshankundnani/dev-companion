@@ -64,6 +64,8 @@ Your 21 requirements are consolidated into 14 skills (overlaps merged to save to
 | Documentation | `documentation` | core |
 | Git / Team Foundation | `git-tfs` | core |
 | Use less tokens | `token-economy` | core |
+| No token waste while background tasks, scripts or subagents run | `background-usage` (+ `background-usage.ps1` audit) | core |
+| Continue a task on another login, device or by a teammate | `handoff` | core |
 | Learning and improving | `learning-loop` | core |
 | C# expert | `csharp-expert` | dotnet |
 | DB/SQL expert | `sql-expert` | dotnet |
@@ -113,7 +115,8 @@ The core plugin's SessionStart hook finds the store either way and injects only 
 .claude-plugin/marketplace.json     marketplace catalog (5 plugins)
 plugins/
   companion-core/   skills: workflow, preflight, project-memory, architecture-map, code-reuse,
-                    clean-code, testing-expert, documentation, git-tfs, token-economy, learning-loop
+                    clean-code, testing-expert, documentation, git-tfs, token-economy, learning-loop,
+                    background-usage, handoff
                     hooks: SessionStart rules + knowledge loader, UserPromptSubmit skill router
   companion-dotnet/ skills: csharp-expert, sql-expert
   companion-ui/     skills: ui-ux-expert, web-frontend-expert

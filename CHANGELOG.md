@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.13.0 core / 1.2.2 analytics - 2026-10-31
+- New `background-usage` skill: while builds, scripts, CI or subagents run, start them in the background and wait for the completion notice (no polling, sleep loops or re-reading output; idle checks 20-30 min). `background-usage.ps1` audits recent activity on this machine: every main session and subagent with calls, context, weighted tokens, idle-wait calls (sleep, TaskOutput/BashOutput/Monitor, wake-ups under 270 s) and files read more than 3 times. Tested on a fixture (duplicates, old and malformed lines, subagents) and on real transcripts (24 h, 29 transcripts, ~4 s).
+- New `handoff` skill: "save handoff" writes the task state (goal, done, next, decisions, verify, open questions) to `.claude/handoff/` in the repo or `~/.claude/handoff/<project>/`; "resume handoff" continues in a fresh session on any login, device or by a teammate, at ~1-2k tokens instead of replaying the conversation. The session hook reports an open handoff in one line. The context nudge at 130k/170k offers a handoff for unfinished work.
+- Token minimization: always-on rules rewritten shorter with the new waiting rule (1,317 -> 1,147 chars per call, -13%); long skill descriptions trimmed (total 4,799 chars for 18 skills -> 4,690 for 20).
+- Router: handoff (handoff, resume task, other login, usage limit, tokens maxed) and background (background task/script, polling, idle tokens). 25 router cases pass.
+
 ## 1.2.1 analytics - 2026-10-30
 - The hub page now ships in the plugin (`usage-analytics/hub/usage-hub.html`). "create my usage hub" publishes a private hub per person with owner-only database rules; devices without `hub.txt` find the hub by title ("Claude Usage Hub") through the account. The built-in default hub link is removed, so other users never write to someone else's hub.
 
