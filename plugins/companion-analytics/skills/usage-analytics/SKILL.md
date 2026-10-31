@@ -1,6 +1,6 @@
 ---
 name: usage-analytics
-description: Claude Code usage analytics across devices - token usage per device, app and project, relative cost, prompt analysis (short/vague vs detailed prompts, correction rate) and sessions that should have been compacted. Publishes this device's usage to the Claude Usage Hub artifact. Use for "usage analytics", "token usage per device", "prompt analysis", "where do my tokens go across machines", "publish my usage to the hub".
+description: Claude Code token usage per device, app and project: relative cost, prompt style vs cost, correction rate, compaction candidates; creates and publishes to the Claude Usage Hub. Use for usage analytics, prompt analysis, "publish my usage to the hub".
 ---
 
 # Usage analytics
