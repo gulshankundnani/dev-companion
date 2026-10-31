@@ -1,6 +1,6 @@
 ---
 name: testing-expert
-description: Thorough testing - test suggested code before editing (scratch run, failing test, rolled-back SQL), edge cases and validation, security tests (brute force, XSS, CSRF, injection, access control, sniffing, pooling, OWASP), test strategy and writing in the project's framework (xUnit, NUnit, MSTest, Jest, Playwright, tSQLt), diagnosing failures, faithful reporting. Use when writing tests, fixing a bug test-first, or asked about tests or coverage.
+description: Testing: prove suggested code before editing, edge cases, validation and security tests (XSS, CSRF, injection, brute force, access control, pooling, sniffing), tests in the project's framework, faithful reporting. Use when testing, fixing a bug test-first, or asked about tests or security.
 ---
 
 # Testing expert
