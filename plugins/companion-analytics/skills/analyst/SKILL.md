@@ -1,6 +1,6 @@
 ---
 name: analyst
-description: General analysis of anything - data (CSV, Excel, JSON, logs, SQL results), code (structure, hotspots, risks), mathematics (equations, derivations, proofs), patterns, system or user behaviour, root cause, trends, statistics, comparing options and trade-offs. Use for "analyse/analyze", "investigate", "why does", "root cause", "pattern", "trend", "statistics", "solve/derive/prove", "compare", "evaluate".
+description: Analyse anything: data, code, maths (solve, derive, prove), patterns, behaviour, root cause, trends, statistics, options and trade-offs. Use for analyse, investigate, why does, root cause, pattern, trend, compare, evaluate.
 ---
 
 # Analyst
