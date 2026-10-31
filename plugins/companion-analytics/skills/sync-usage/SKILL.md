@@ -1,6 +1,6 @@
 ---
 name: sync-usage
-description: Sync Claude Code usage from every device logged in to this account into the Claude Usage Hub - publishes this device, then asks one Remote Control session on each other device to publish too. Use for /sync-usage, "sync usage", "sync usage across devices", "collect usage from all devices".
+description: Sync Claude Code usage from all devices on this account into the Claude Usage Hub (this device, then one Remote Control session per other device). Use for /sync-usage or "sync usage across devices".
 ---
 
 # Sync usage across devices
