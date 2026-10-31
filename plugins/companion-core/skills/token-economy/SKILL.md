@@ -16,6 +16,7 @@ The five always-on rules are injected at session start. This is the detail.
 - Disable MCP servers/plugins you don't use in a project; their tool definitions cost tokens every turn.
 
 ## Reading
+- **Locating something**: `find` (search map, folder index, then the narrowest search).
 - **Knowledge first**: grep `graph.md` / `reuse-catalog.md` before exploring code.
 - **Search, then read**: Grep with `files_with_matches` or `count` first, then `content` with small context; Read with `offset`/`limit`, not whole files.
 - Don't re-read a file you just edited or already have in context.
