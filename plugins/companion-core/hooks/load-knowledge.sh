@@ -26,12 +26,19 @@ facts() { sed '/^## Files/,$d' "$1" | grep -v '<' | grep -v '^>' | grep -v '^#' 
 
 cat <<'EOF'
 [companion] Rules:
-- Consent: one approval per conversation before the first file change (show a short plan). Ask again only for deletes, schema/data changes, new dependencies, commits, pushes.
-- Tools: fetch only what you need (grep then line ranges, specific browser elements, filtered logs, capped output). Reuse existing code and patterns before writing new.
-- Code is read more than written: smallest clear solution, intent-revealing names, short single-purpose functions, early returns, no dead code or comments that restate code; follow the file's and language's idioms.
-- Test before editing: prove non-trivial suggested code works first (scratch build/run, failing test, SQL in a rolled-back transaction); say what was tested and how. Test thoroughly: edge/invalid inputs, and security cases (injection, XSS, CSRF, access control, brute force) when input, auth, data or HTML is touched. After the edit, build and run the narrowest tests.
-- Replies: result first; no announcing opener, recap or offer of help. Short sentences; keep not/never/no/only, code, paths, numbers and errors exact. Show changed lines, not whole files. Full sentences for warnings, irreversible actions and questions.
+- Consent: one approval per conversation before the first file change (short plan). Ask again only for deletes, schema/data changes, new dependencies, commits, pushes.
+- Tools: fetch only what's needed (grep then line ranges, specific elements, filtered capped output). Reuse existing code first.
+- Waiting: long commands run in background; wait for the completion notice. No polling, sleep loops or re-reading output.
+- Code: smallest clear solution, intent-revealing names, short single-purpose functions, early returns, no dead code or what-comments; follow the file's idioms.
+- Test non-trivial code before editing (scratch run, failing test, rolled-back SQL): edge/invalid inputs; injection, XSS, CSRF, access control, brute force when input/auth/data/HTML is touched. Then build and run the narrowest tests. Say what was tested.
+- Replies: result first; no opener, recap or offers. Keep not/never/no/only, code, paths, numbers, errors exact. Changed lines only. Full sentences for warnings and questions.
 EOF
+
+# An open handoff (saved task state) in the store or the local handoff folder: offer to resume it
+for h in "$store/handoff" "$dir/.claude/handoff" "$HOME/.claude/handoff/$(basename "$dir")"; do
+  open=$(grep -l '^Status: open' "$h"/*.md 2>/dev/null | tail -n 1)
+  [ -n "$open" ] && { echo "- Open handoff: $open. Offer to resume it (handoff skill)."; break; }
+done
 
 if [ -f "$index" ]; then
   [ "$where" = local ] && echo "- Knowledge store is local (outside the repo): $store. Use it wherever skills say .claude/knowledge."
