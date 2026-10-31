@@ -6,14 +6,14 @@
     "name": "Gulshan Kundnani"
   },
   "metadata": {
-    "version": "1.14.1"
+    "version": "1.15.0"
   },
   "plugins": [
     {
       "name": "companion-core",
       "source": "./plugins/companion-core",
       "description": "Core workflow: preflight checklist, project memory, architecture map / knowledge graph, code reuse, clean code, testing, documentation, Git/TFS, token economy, learning loop.",
-      "version": "1.12.0",
+      "version": "1.13.0",
       "category": "development"
     },
     {
@@ -41,7 +41,7 @@
       "name": "companion-analytics",
       "source": "./plugins/companion-analytics",
       "description": "Opt-in analytics: general analyst skill (data, code, maths, patterns, behaviour, decisions) and Claude Code usage analytics per device, app and project.",
-      "version": "1.2.1",
+      "version": "1.2.2",
       "category": "productivity"
     }
   ]
