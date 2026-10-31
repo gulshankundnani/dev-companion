@@ -54,7 +54,10 @@ question=0
 if ! has '\b(implement|add|create|build|fix|refactor|migrate|feature|plan|change|upgrade|optimi[sz]e|rewrite|rename)\b'; then
   has '(^(what|why|how|where|which|who|when|is|are|does|do|did|can you explain|explain|tell me)\b|\?[[:space:]]*$)' && question=1
 fi
-[ "$question" -eq 1 ] && [ "$analysis" -eq 0 ] && exit 0
+# Locating things also counts even as a question ("where is the fee receipt view?")
+finding=0
+has '(\bwhere (is|are|do|does)\b|\blocate\b|which (file|folder|view|controller|table|proc)|\bfind (the |all |where |which )?(files?|folders?|class|method|function|view|controller|proc|table|usages?|references?|callers?)\b|search (for|the code|the project))' && finding=1
+[ "$question" -eq 1 ] && [ "$analysis" -eq 0 ] && [ "$finding" -eq 0 ] && exit 0
 # Requests about skills, plugins or hooks name domains in passing ("analyse CSV, JSON, SQL results"):
 # they get no domain expert
 experts=1
@@ -73,6 +76,7 @@ has '(\bui\b|\bux\b|mockup|wireframe|prototype|\blayout|\bcss\b|accessib|usabili
 has '(\bslow\b|performance|optimi[sz]|clean ?up|clean code|code quality|simplif|readab|maintainab)' && need companion-core:clean-code
 fi
 # After the domain experts: on a change request they keep priority within the 2-skill limit
+[ "$finding" -eq 1 ] && need companion-core:find
 [ "$analysis" -eq 1 ] && need companion-analytics:analyst
 
 # Specialists for explicit actions
