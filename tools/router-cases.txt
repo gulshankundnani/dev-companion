@@ -1,5 +1,7 @@
 # expected skills (space-separated, in order; - = none) | prompt
 # Run: sh tools/test-router.sh
+companion-core:find|where is the fee receipt print view in this project?
+companion-core:find|find all callers of SaveInstallment across the solution
 companion-core:handoff|tokens are maxed out, save handoff so I can continue with another login
 companion-core:handoff|resume the task from the handoff file please
 companion-core:background-usage|scripts are running in the background, stop wasting tokens on polling
