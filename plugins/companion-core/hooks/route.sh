@@ -32,7 +32,7 @@ if [ -n "$sid" ] && [ -f "$tp" ]; then
   [ "$ctx" -ge 170000 ] && level=170
   if [ "$level" -gt 0 ] && ! grep -qx "ctx:$level" "$state" 2>/dev/null; then
     mkdir -p "$dir" && echo "ctx:$level" >> "$state"
-    echo "[companion] Context ~$((ctx / 1000))k tokens, re-read every call. If the earlier task is done, tell the user in one line that /compact or a new session cuts cost."
+    echo "[companion] Context ~$((ctx / 1000))k tokens, re-read every call. If the earlier task is done, tell the user in one line that /compact or a new session cuts cost; if unfinished, offer to save a handoff first."
   fi
 fi
 
@@ -82,6 +82,8 @@ has '(\bcommit|\bbranch|pull request|\bpr\b|\bmerge\b|shelve|check ?in|\btfs\b|t
 has '(readme|release notes|document(ation)?\b)' && need companion-core:documentation
 has '(remember (that|this)|from now on|initiali[sz]e (project )?memory)' && need companion-core:project-memory
 has '(\bretro\b|learn from this|do not do that again|don.t do that again)' && need companion-core:learning-loop
+has '(hand ?off|handover|resume (the |my )?(task|work|handoff)|save (the )?(progress|session|task state)|(other|another|different) (login|account)|(usage|rate|token) limit|out of tokens|tokens? (are )?maxed)' && need companion-core:handoff
+has '(background (task|job|script|process|usage|token)|in (the )?background|\bpolling\b|idle tokens|what is using (my )?tokens)' && need companion-core:background-usage
 }
 
 [ -n "$required" ] || exit 0
