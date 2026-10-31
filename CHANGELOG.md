@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.14.0 core - 2026-10-31
+- New `find` skill: locate files, classes, actions, views, JS functions, SQL objects, config keys and UI text with a cheapest-first ladder: search map and knowledge, folder index, Glob, scoped Grep (count/files first, definition-anchored patterns for C#, Razor, JS, SQL, config), partial Read, Explore subagent only for broad unknowns. Non-obvious finds are remembered in a search map (`<store>/search-map.md`, or local `~/.claude/knowledge/search/<repo key>.md`) for future sessions.
+- `search-roots.ps1`: one pruned walk prints a compact Roots block (top folders per file type) and, with `-TreeOut`, a folder index: one full relative path per line with file counts, a tree view built for grep (always local). MCampusMVC: 12 s, 5,210 folders; a folder-name grep returns only matching paths instead of reading a 394 KB tree.
+- Session hook names the map and index in one line only when they exist. Router: "where is", "locate", "which file/view/controller", "find callers/usages" load `find`, even as questions. 27 router cases pass.
+
 ## 1.13.0 core / 1.2.2 analytics - 2026-10-31
 - New `background-usage` skill: while builds, scripts, CI or subagents run, start them in the background and wait for the completion notice (no polling, sleep loops or re-reading output; idle checks 20-30 min). `background-usage.ps1` audits recent activity on this machine: every main session and subagent with calls, context, weighted tokens, idle-wait calls (sleep, TaskOutput/BashOutput/Monitor, wake-ups under 270 s) and files read more than 3 times. Tested on a fixture (duplicates, old and malformed lines, subagents) and on real transcripts (24 h, 29 transcripts, ~4 s).
 - New `handoff` skill: "save handoff" writes the task state (goal, done, next, decisions, verify, open questions) to `.claude/handoff/` in the repo or `~/.claude/handoff/<project>/`; "resume handoff" continues in a fresh session on any login, device or by a teammate, at ~1-2k tokens instead of replaying the conversation. The session hook reports an open handoff in one line. The context nudge at 130k/170k offers a handoff for unfinished work.

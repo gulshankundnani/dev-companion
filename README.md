@@ -66,6 +66,7 @@ Your 21 requirements are consolidated into 14 skills (overlaps merged to save to
 | Use less tokens | `token-economy` | core |
 | No token waste while background tasks, scripts or subagents run | `background-usage` (+ `background-usage.ps1` audit) | core |
 | Continue a task on another login, device or by a teammate | `handoff` | core |
+| Find anything fast, remember search paths | `find` (+ `search-roots.ps1`: roots map and greppable folder index) | core |
 | Learning and improving | `learning-loop` | core |
 | C# expert | `csharp-expert` | dotnet |
 | DB/SQL expert | `sql-expert` | dotnet |
@@ -116,7 +117,7 @@ The core plugin's SessionStart hook finds the store either way and injects only 
 plugins/
   companion-core/   skills: workflow, preflight, project-memory, architecture-map, code-reuse,
                     clean-code, testing-expert, documentation, git-tfs, token-economy, learning-loop,
-                    background-usage, handoff
+                    background-usage, handoff, find
                     hooks: SessionStart rules + knowledge loader, UserPromptSubmit skill router
   companion-dotnet/ skills: csharp-expert, sql-expert
   companion-ui/     skills: ui-ux-expert, web-frontend-expert
