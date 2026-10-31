@@ -1,6 +1,6 @@
 {
   "name": "companion-analytics",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Opt-in analytics: general analyst skill (data, code, maths, patterns, behaviour, decisions) and Claude Code usage analytics: tokens and relative cost per device, app and project, prompt-style analysis, compaction candidates.",
   "author": {
     "name": "Gulshan Kundnani"
