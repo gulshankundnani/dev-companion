@@ -1,5 +1,8 @@
 # expected skills (space-separated, in order; - = none) | prompt
 # Run: sh tools/test-router.sh
+companion-core:handoff|tokens are maxed out, save handoff so I can continue with another login
+companion-core:handoff|resume the task from the handoff file please
+companion-core:background-usage|scripts are running in the background, stop wasting tokens on polling
 companion-core:testing-expert|check the fees payment page for xss and csrf issues
 companion-dotnet:csharp-expert companion-dotnet:sql-expert|add a column to the Orders table in the database and update the controller
 companion-ui:web-frontend-expert|popup goes behind the parent window when opened from the grid
