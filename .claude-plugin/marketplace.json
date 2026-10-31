@@ -6,14 +6,14 @@
     "name": "Gulshan Kundnani"
   },
   "metadata": {
-    "version": "1.15.0"
+    "version": "1.16.0"
   },
   "plugins": [
     {
       "name": "companion-core",
       "source": "./plugins/companion-core",
       "description": "Core workflow: preflight checklist, project memory, architecture map / knowledge graph, code reuse, clean code, testing, documentation, Git/TFS, token economy, learning loop.",
-      "version": "1.13.0",
+      "version": "1.14.0",
       "category": "development"
     },
     {
