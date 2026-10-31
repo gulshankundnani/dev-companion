@@ -34,6 +34,14 @@ cat <<'EOF'
 - Replies: result first; no opener, recap or offers. Keep not/never/no/only, code, paths, numbers, errors exact. Changed lines only. Full sentences for warnings and questions.
 EOF
 
+# Remembered search paths (find skill): the map in the store, else local; the folder index is always local
+search="$HOME/.claude/knowledge/search/$(norm "$dir" | tr ':/' '--')"
+map="$store/search-map.md"
+[ -f "$map" ] || map="$search.md"
+if [ -f "$map" ] || [ -f "$search.tree.txt" ]; then
+  echo "- Search map: $map; folder index: $search.tree.txt (grep, never read whole). Check them before searching code."
+fi
+
 # An open handoff (saved task state) in the store or the local handoff folder: offer to resume it
 for h in "$store/handoff" "$dir/.claude/handoff" "$HOME/.claude/handoff/$(basename "$dir")"; do
   open=$(grep -l '^Status: open' "$h"/*.md 2>/dev/null | tail -n 1)
