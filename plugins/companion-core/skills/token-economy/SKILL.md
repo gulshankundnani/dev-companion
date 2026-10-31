@@ -1,6 +1,6 @@
 ---
 name: token-economy
-description: Detailed token-saving playbook - targeted search, partial reads, session habits (/clear, /compact, /context), when subagents help, concise output. Use when the user asks to use fewer tokens or save context, or when a session or codebase is large.
+description: Token-saving playbook: targeted search, partial reads, /clear, /compact, /context, subagents, background waits, concise output. Use when asked to use fewer tokens or a session or codebase is large.
 ---
 
 # Token economy
@@ -9,6 +9,8 @@ The five always-on rules are injected at session start. This is the detail.
 
 ## Session habits (biggest savings)
 - **`/clear` between unrelated tasks.** Old context is re-sent with every message; a fresh session for a new task is the single largest saving. Record what matters in `.claude/knowledge/` first.
+- **Unfinished task, large context or usage limit near**: `handoff` saves the state in ~1-2k tokens; resume it in a fresh session (any login or device) instead of replaying the conversation.
+- **Waiting on builds, scripts, CI or subagents**: see `background-usage` (no polling; audit script).
 - **`/compact` in long sessions** (optionally with a focus: `/compact keep the Orders refactor plan`).
 - **`/context`** shows what is filling the window (files, tool output, MCP tools, skills). Check it when a session feels heavy.
 - Disable MCP servers/plugins you don't use in a project; their tool definitions cost tokens every turn.
