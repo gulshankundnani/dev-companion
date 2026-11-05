@@ -6,7 +6,7 @@
     "name": "Gulshan Kundnani"
   },
   "metadata": {
-    "version": "1.16.1"
+    "version": "1.17.0"
   },
   "plugins": [
     {
@@ -43,6 +43,13 @@
       "description": "Opt-in analytics: general analyst skill (data, code, maths, patterns, behaviour, decisions) and Claude Code usage analytics per device, app and project.",
       "version": "1.2.2",
       "category": "productivity"
+    },
+    {
+      "name": "companion-lsp",
+      "source": "./plugins/companion-lsp",
+      "description": "Language servers (C#, JS/TS, CSS, HTML, Razor/Blazor markup) and a code-intel skill: definitions, references and diagnostics instead of grep.",
+      "version": "1.0.0",
+      "category": "development"
     }
   ]
 }
