@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.17.0 marketplace / 1.0.0 lsp - 2026-11-05
+- New `companion-lsp` plugin: `.lsp.json` wiring csharp-ls (`.cs`), typescript-language-server (`.js/.ts`), vscode-css/html-language-server (`.css/.scss/.less`, `.html`, plus `.cshtml/.razor` markup), and a `code-intel` skill that prefers LSP definitions, references and diagnostics over grep. Requires TypeScript 5.x (TS 7 has no `tsserver.js`).
+
+## 1.14.1 core - 2026-11-05
+- Replies: only what is needed, when needed; every task ends with a short summary (changed, tested, pending).
+
 ## 1.14.0 core - 2026-10-31
 - New `find` skill: locate files, classes, actions, views, JS functions, SQL objects, config keys and UI text with a cheapest-first ladder: search map and knowledge, folder index, Glob, scoped Grep (count/files first, definition-anchored patterns for C#, Razor, JS, SQL, config), partial Read, Explore subagent only for broad unknowns. Non-obvious finds are remembered in a search map (`<store>/search-map.md`, or local `~/.claude/knowledge/search/<repo key>.md`) for future sessions.
 - `search-roots.ps1`: one pruned walk prints a compact Roots block (top folders per file type) and, with `-TreeOut`, a folder index: one full relative path per line with file counts, a tree view built for grep (always local). MCampusMVC: 12 s, 5,210 folders; a folder-name grep returns only matching paths instead of reading a 394 KB tree.

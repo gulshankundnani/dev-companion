@@ -21,6 +21,7 @@ Packaged as a **plugin marketplace** with five plugins, so teams install only wh
 /plugin install companion-core@dev-companion
 /plugin install companion-dotnet@dev-companion
 /plugin install companion-ui@dev-companion
+/plugin install companion-lsp@dev-companion      (optional; install the language servers first, see code-intel)
 ```
 No plugin support? `.\install.ps1 -Mode Skills` copies the skills into `~/.claude/skills` (or `-Scope Project` for one repo). Hooks aren't installed in that mode.
 
@@ -72,6 +73,7 @@ Your 21 requirements are consolidated into 14 skills (overlaps merged to save to
 | DB/SQL expert | `sql-expert` | dotnet |
 | UI/UX expert · Visualization and mockup | `ui-ux-expert` | ui |
 | (Razor views, JavaScript/jQuery, popups) | `web-frontend-expert` | ui |
+| Definitions, references, diagnostics via language servers (C#, JS/TS, CSS, HTML, Razor markup) | `code-intel` (+ `.lsp.json`; setup in the skill) | lsp (opt-in) |
 | User consent (hard guarantee) | PreToolUse hook | guard (opt-in) |
 | Analyse anything: data, code, maths, patterns, behaviour, decisions | `analyst` (playbooks in `references/`) | analytics (opt-in) |
 | Token usage per device · Prompt-style analysis | `usage-analytics` (+ `collect-usage.ps1`, `hub-rows.ps1`, `usage-report.ps1`) | analytics (opt-in) |
@@ -89,6 +91,37 @@ Each device publishes its own usage to its owner's private artifact, the **Claud
 **Then, from any device**
 - `/companion-analytics:sync-usage`: publishes this device and asks one Remote Control session on each other device to publish too. A device is reached only while it is on, the Claude app is open and a session is connected.
 - "publish my usage to the hub": this device only.
+
+## Code intelligence (LSP, opt-in)
+
+`companion-lsp` connects language servers so Claude jumps to definitions, finds exact references and reads compiler diagnostics instead of grepping. This uses fewer tokens and gives more accurate impact analysis.
+
+| Files | Server | Features |
+|---|---|---|
+| `.cs` | `csharp-ls` | Full: definition, references, callers, implementations, hover, symbols, diagnostics |
+| `.js .mjs .cjs .jsx .ts .tsx` | `typescript-language-server` | Full |
+| `.css .scss .less` | `vscode-css-language-server` | Full |
+| `.html .htm .cshtml .razor` | `vscode-html-language-server` | HTML markup only; C# inside Razor (`@code`, `@{ }`) falls back to grep |
+
+**Once per machine**
+1. Install the language servers (needs the .NET SDK and Node.js):
+   ```bash
+   dotnet tool install -g csharp-ls
+   npm install -g typescript-language-server typescript@5 vscode-langservers-extracted
+   ```
+   Keep TypeScript on 5.x: TypeScript 7 has no `tsserver.js`, and the JS/TS server won't start without it.
+2. Check that they are on PATH. Run `where csharp-ls typescript-language-server vscode-html-language-server` on Windows or `which ...` elsewhere. If one is missing, open a new terminal or add `%USERPROFILE%\.dotnet\tools` and `%APPDATA%\npm` to PATH.
+3. Install the plugin, then restart Claude Code:
+   ```
+   /plugin install companion-lsp@dev-companion
+   ```
+
+**Use**
+- Ask naturally, for example "where is SaveInstallment defined?", "who calls FeeService.Calculate?" or "what breaks if I rename this?". The `code-intel` skill picks the LSP operation itself.
+- After an edit, Claude checks the file's diagnostics before building.
+- Open the session from the folder that holds the `.sln`. The first C# query in a large solution can take up to a minute while it loads.
+- .NET Framework (non-SDK) projects need MSBuild from Visual Studio or the Build Tools. Run `dotnet restore` first for SDK-style projects if results come back empty.
+- Strings, config keys, SQL and comments still use grep, through the `find` skill.
 
 ## Where knowledge lives (project-wise segregation)
 
