@@ -1,0 +1,9 @@
+{
+  "name": "companion-lsp",
+  "version": "1.0.0",
+  "description": "Language servers for C#, JavaScript/TypeScript, CSS, HTML and Razor/Blazor markup, so Claude can jump to definitions, find references and read diagnostics instead of grepping.",
+  "author": {
+    "name": "Gulshan Kundnani"
+  },
+  "keywords": ["lsp", "csharp", "javascript", "css", "html", "razor", "blazor"]
+}
