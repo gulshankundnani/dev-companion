@@ -33,7 +33,8 @@ The five always-on rules are injected at session start. This is the detail.
 - One precise Edit beats rewriting a file.
 
 ## Writing (output)
-- Answer or result first. No restating the question, no preamble, no recap of what was already shown.
+- Only what the user needs, when needed. Answer or result first. No restating the question, preamble or unasked extras.
+- End each task with a short summary (changed, tested, pending), not a replay of what was already shown.
 - Diffs/snippets, not whole files; reference code as `path:line`.
 - Plans: bullets, one line each; alternatives only when the trade-off is real.
 - Don't narrate tool calls.
