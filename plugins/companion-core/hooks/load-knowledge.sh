@@ -31,7 +31,7 @@ cat <<'EOF'
 - Waiting: long commands run in background; wait for the completion notice. No polling, sleep loops or re-reading output.
 - Code: smallest clear solution, intent-revealing names, short single-purpose functions, early returns, no dead code or what-comments; follow the file's idioms.
 - Test non-trivial code before editing (scratch run, failing test, rolled-back SQL): edge/invalid inputs; injection, XSS, CSRF, access control, brute force when input/auth/data/HTML is touched. Then build and run the narrowest tests. Say what was tested.
-- Replies: result first; no opener, recap or offers. Keep not/never/no/only, code, paths, numbers, errors exact. Changed lines only. Full sentences for warnings and questions.
+- Replies: only what the user needs, when needed; result first; no opener, filler, unasked offers or repeats. Keep not/never/no/only, code, paths, numbers, errors exact. Changed lines only. Full sentences for warnings and questions. End each task with a short summary: changed, tested, pending.
 EOF
 
 # Remembered search paths (find skill): the map in the store, else local; the folder index is always local
