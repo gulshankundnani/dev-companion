@@ -1,0 +1,43 @@
+{
+  "csharp": {
+    "command": "csharp-ls",
+    "extensionToLanguage": {
+      ".cs": "csharp"
+    }
+  },
+  "typescript": {
+    "command": "typescript-language-server",
+    "args": ["--stdio"],
+    "extensionToLanguage": {
+      ".js": "javascript",
+      ".mjs": "javascript",
+      ".cjs": "javascript",
+      ".jsx": "javascriptreact",
+      ".ts": "typescript",
+      ".tsx": "typescriptreact"
+    }
+  },
+  "css": {
+    "command": "vscode-css-language-server",
+    "args": ["--stdio"],
+    "extensionToLanguage": {
+      ".css": "css",
+      ".scss": "scss",
+      ".less": "less"
+    }
+  },
+  "html": {
+    "command": "vscode-html-language-server",
+    "args": ["--stdio"],
+    "extensionToLanguage": {
+      ".html": "html",
+      ".htm": "html",
+      ".cshtml": "html",
+      ".razor": "html"
+    },
+    "initializationOptions": {
+      "provideFormatter": true,
+      "embeddedLanguages": { "css": true, "javascript": true }
+    }
+  }
+}
