@@ -1,0 +1,4 @@
+# Keep LF everywhere: CRLF breaks SKILL.md frontmatter and the .sh hooks
+* text=auto eol=lf
+*.zip binary
+*.png binary
