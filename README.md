@@ -101,10 +101,11 @@ Each device publishes its own usage to its owner's private artifact, the **Claud
 | `.cs` | `csharp-ls` | Full: definition, references, callers, implementations, hover, symbols, diagnostics |
 | `.js .mjs .cjs .jsx .ts .tsx` | `typescript-language-server` | Full |
 | `.css .scss .less` | `vscode-css-language-server` | Full |
-| `.html .htm .cshtml .razor` | `vscode-html-language-server` | HTML markup only; C# inside Razor (`@code`, `@{ }`) falls back to grep |
+| `.cshtml .vbhtml` | `razor-bridge.js` (csharp-ls + HTML server) | C# names in views: definition, hover, references, callers, resolved by name; references also list view call sites (candidates). Markup via the HTML server. No C# diagnostics in views |
+| `.html .htm .razor` | `vscode-html-language-server` | HTML markup only; C# in Blazor `.razor` (`@code`) falls back to grep |
 
 **Once per machine**
-1. Install the language servers (needs the .NET SDK and Node.js):
+1. Install the language servers (needs the .NET SDK and Node.js; `node` must stay on PATH for the Razor bridge):
    ```bash
    dotnet tool install -g csharp-ls
    npm install -g typescript-language-server typescript@5 vscode-langservers-extracted

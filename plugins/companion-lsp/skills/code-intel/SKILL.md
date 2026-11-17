@@ -15,7 +15,14 @@ description: Navigate C#, JavaScript/TypeScript, CSS, HTML and Razor/Blazor code
 
 **After editing**, check diagnostics for the changed file before building; fix errors you introduced.
 
-**Fall back to grep** for strings, config keys, SQL, comments, and Razor/Blazor `@code` or `@{ }` C#: `.cshtml`/`.razor` get HTML features only (no standalone Razor server exists outside VS/VS Code). Their code-behind (`.razor.cs`, `.cshtml.cs`), controllers and view models get full C# support.
+**`.cshtml` views (razor-bridge)**: `.cs` and `.cshtml` share one server, `servers/razor-bridge.js`, which passes `.cs` straight to `csharp-ls`. No Razor compiler runs, so in a view:
+- `goToDefinition` / `hover` / `findReferences` / `prepareCallHierarchy` on a C# name resolve **by name** through `workspaceSymbol`, narrowed by the qualifier (`Constants.X`, `Model.X` -> the `@model` type) and by types the view mentions. Several symbols with the same name -> several definitions; hover says how many.
+- `findReferences` on a C# symbol, from a `.cs` file or a view, also lists **view call sites by text match**: static -> `Type.Name`, extension -> `.Name(`, instance -> `.Name` in views that mention the type, type -> the word. Treat view hits as candidates, not compiler-exact; capped at 5,000.
+- `documentSymbol` and other markup requests go to the HTML server.
+- No C# diagnostics in views: compile-check them with the project's own tool (e.g. a view-compat script) or a build.
+`.razor` (Blazor) still gets HTML features only; its code-behind `.razor.cs` gets full C# support.
+
+**Fall back to grep** for strings, config keys, SQL and comments.
 
 **C# server** (`csharp-ls`) loads the `.sln`/`.slnx` at the workspace root; the first query in a big solution can take a minute. If results are empty, the solution may not have restored: run `dotnet restore` (SDK-style) or open from the folder that holds the `.sln`.
 
@@ -26,3 +33,4 @@ npm install -g typescript-language-server typescript@5 vscode-langservers-extrac
 ```
 TypeScript must stay on 5.x: TypeScript 7 (native) has no `tsserver.js`, so the JS/TS server fails to start.
 .NET Framework (non-SDK) projects need MSBuild from Visual Studio Build Tools for `csharp-ls` to load them.
+`node` must be on PATH (razor-bridge). Debug the bridge with `RAZOR_BRIDGE_LOG=<file>`; override the servers with `RAZOR_BRIDGE_CSHARP` / `RAZOR_BRIDGE_HTML`.

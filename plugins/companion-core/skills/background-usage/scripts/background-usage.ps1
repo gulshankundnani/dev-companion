@@ -34,7 +34,7 @@ $files = Get-ChildItem -Path $ProjectsDir -Filter *.jsonl -Recurse -File -ErrorA
 $rows = foreach ($file in $files) {
   $seen = New-Object 'System.Collections.Generic.HashSet[string]'
   $reads = @{}
-  $calls = 0; $weighted = 0.0; $waitCalls = 0; $waitWeighted = 0.0; $context = 0
+  $calls = 0; $weighted = 0.0; $waitCalls = 0; $waitWeighted = 0.0; $context = 0; $start = 0; $rebuilds = 0
   $cwd = ''; $last = ''; $isSubagent = $false
 
   foreach ($line in [IO.File]::ReadLines($file.FullName)) {
@@ -48,6 +48,9 @@ $rows = foreach ($file in $files) {
     $cost = Get-WeightedTokens $message.usage
     $calls++; $weighted += $cost; $last = $stamp
     $context = $message.usage.input_tokens + $message.usage.cache_creation_input_tokens + $message.usage.cache_read_input_tokens
+    if ($calls -eq 1) { $start = $context }
+    # Most of the context written to cache again after the first call: the cache expired (idle gap) or the prefix changed
+    elseif ($context -gt 20000 -and $message.usage.cache_creation_input_tokens -gt 0.5 * $context) { $rebuilds++ }
     if ($entry.cwd -and -not $cwd) { $cwd = $entry.cwd }
     if ($entry.isSidechain) { $isSubagent = $true }
 
@@ -65,7 +68,9 @@ $rows = foreach ($file in $files) {
     LastActive  = ([datetime]::Parse($last)).ToLocalTime().ToString('dd MMM HH:mm')
     LastUtc     = $last
     Calls       = $calls
+    StartK      = [Math]::Round($start / 1000)
     ContextK    = [Math]::Round($context / 1000)
+    Rebuilds    = $rebuilds
     WeightedK   = [Math]::Round($weighted / 1000, 1)
     IdleWaits   = $waitCalls
     IdleShare   = if ($weighted) { '{0:P0}' -f ($waitWeighted / $weighted) } else { '0%' }

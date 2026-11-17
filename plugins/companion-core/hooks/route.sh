@@ -87,6 +87,7 @@ has '(readme|release notes|document(ation)?\b)' && need companion-core:documenta
 has '(remember (that|this)|from now on|initiali[sz]e (project )?memory)' && need companion-core:project-memory
 has '(\bretro\b|learn from this|do not do that again|don.t do that again)' && need companion-core:learning-loop
 has '(hand ?off|handover|resume (the |my )?(task|work|handoff)|save (the )?(progress|session|task state)|(other|another|different) (login|account)|(usage|rate|token) limit|out of tokens|tokens? (are )?maxed)' && need companion-core:handoff
+has '(starting package|system prompt|tool (list|definitions)|claude\.md|re-?reads? (it )?every (call|time)|(fewer|less|save|reduce|minimi[sz]e) tokens)' && need companion-core:token-economy
 has '(background (task|job|script|process|usage|token)|in (the )?background|\bpolling\b|idle tokens|what is using (my )?tokens)' && need companion-core:background-usage
 }
 

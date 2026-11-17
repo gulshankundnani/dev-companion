@@ -1,8 +1,11 @@
 {
   "csharp": {
-    "command": "csharp-ls",
+    "command": "node",
+    "args": ["${CLAUDE_PLUGIN_ROOT}/servers/razor-bridge.js"],
     "extensionToLanguage": {
-      ".cs": "csharp"
+      ".cs": "csharp",
+      ".cshtml": "razor",
+      ".vbhtml": "razor"
     }
   },
   "typescript": {
@@ -32,7 +35,6 @@
     "extensionToLanguage": {
       ".html": "html",
       ".htm": "html",
-      ".cshtml": "html",
       ".razor": "html"
     },
     "initializationOptions": {

@@ -15,6 +15,16 @@ The five always-on rules are injected at session start. This is the detail.
 - **`/context`** shows what is filling the window (files, tool output, MCP tools, skills). Check it when a session feels heavy.
 - Disable MCP servers/plugins you don't use in a project; their tool definitions cost tokens every turn.
 
+## Starting package (re-sent on every call)
+The model keeps nothing between calls: each call re-sends the system prompt, tool definitions, skill list, CLAUDE.md, hook output and the whole conversation. It can't be "remembered" instead; it can only be made smaller, cheaper or sent less often.
+- **Cached, not free**: a cache read costs ~10% of input, so an 88k package is ~9k-token-equivalent per call. Cutting calls (batch independent tool calls, no polling) saves more than any rule.
+- **Keep the cache warm**: cache lifetime is limited; after a long idle gap the next call re-writes the whole package at 1.25x. Finish or `/compact` before stepping away; the audit's `Rebuilds` column counts these.
+- **Shrink what's always loaded** (measure with `/context`):
+  - MCP servers and connectors you don't use in this project (browser extension, document or data connectors, scheduled tasks): turn them off in the app's connector settings or `/mcp`. Each adds tool definitions to every call.
+  - Plugins you don't use here: disable per project (`/plugin`), e.g. analytics, lsp or guard in a repo that doesn't need them. Each skill adds its description line.
+  - CLAUDE.md and memory index: short, facts only, link to detail files instead of pasting them (`@file` imports load in full).
+- **Don't add to it**: the companion rules stay ~1.2k chars on purpose; put detail in skills, which load only when used.
+
 ## Reading
 - **Locating something**: `find` (search map, folder index, then the narrowest search).
 - **Knowledge first**: grep `graph.md` / `reuse-catalog.md` before exploring code.

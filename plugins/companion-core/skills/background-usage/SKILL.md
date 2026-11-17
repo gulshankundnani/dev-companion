@@ -18,6 +18,6 @@ A waiting session still pays: every call re-reads the whole context. Idle waitin
 ```
 powershell -NoProfile -File "<this skill>/scripts/background-usage.ps1" -Minutes 60
 ```
-Lists every main session and subagent on this machine with calls, context size, weighted tokens (input 1, cache write 1.25, cache read 0.1, output 5), idle-wait calls (sleep, polling, wake-ups under 270 s) and files read more than 3 times. Report: the top consumers, idle share, and one fix per offender (stop it, compact, or switch to background + notification). Also check scheduled tasks and loops (`CronList`, scheduled-tasks list) when those tools exist: a frequent job in a large session costs every run.
+Lists every main session and subagent on this machine with calls, StartK (context of the first call in the window: the starting package for sessions that began in it), context size, Rebuilds (calls that re-wrote most of the context to cache: idle gap past the cache lifetime, or a changed prefix), weighted tokens (input 1, cache write 1.25, cache read 0.1, output 5), idle-wait calls (sleep, polling, wake-ups under 270 s) and files read more than 3 times. Report: the top consumers, idle share, and one fix per offender (stop it, compact, or switch to background + notification). Also check scheduled tasks and loops (`CronList`, scheduled-tasks list) when those tools exist: a frequent job in a large session costs every run.
 
 Stopping or archiving another session needs the user's yes.

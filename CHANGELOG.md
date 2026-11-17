@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.18.0 marketplace / 1.15.0 core / 1.1.0 lsp - 2026-11-17
+- companion-lsp: `servers/razor-bridge.js` serves `.cs` and `.cshtml`/`.vbhtml` in one server. `.cs` passes straight to csharp-ls. In views, definition, hover, references and call hierarchy resolve C# names through workspace symbols (narrowed by qualifier and `@model`), and references add view call sites by text match (candidates, capped at 5,000). Markup requests go to the HTML server. Needs `node` on PATH.
+- token-economy: "Starting package" section. Nothing is remembered between calls; the system prompt, tools, skills and CLAUDE.md are re-sent (cached) every call. Fewer calls, a warm cache, and unused connectors and plugins turned off are what shrink it. Router sends "starting package", "system prompt", "CLAUDE.md", "save tokens" prompts to token-economy.
+- background-usage.ps1: `StartK` (context of the first call) and `Rebuilds` (cache re-written after an idle gap) columns.
+
 ## 1.17.0 marketplace / 1.0.0 lsp - 2026-11-05
 - New `companion-lsp` plugin: `.lsp.json` wiring csharp-ls (`.cs`), typescript-language-server (`.js/.ts`), vscode-css/html-language-server (`.css/.scss/.less`, `.html`, plus `.cshtml/.razor` markup), and a `code-intel` skill that prefers LSP definitions, references and diagnostics over grep. Requires TypeScript 5.x (TS 7 has no `tsserver.js`).
 

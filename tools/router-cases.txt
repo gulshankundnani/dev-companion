@@ -27,3 +27,4 @@ companion-core:git-tfs|commit the plugin changes and push the branch
 -|how do I run the tests in this repo?
 companion-core:testing-expert|write unit tests for the fine calculation service
 -|This session is being continued from a previous conversation that ran out of context. Fix the controller and the sql query.
+companion-core:token-economy|Every call re-reads a starting package of about 88k tokens, add it in your skill

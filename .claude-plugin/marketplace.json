@@ -6,14 +6,14 @@
     "name": "Gulshan Kundnani"
   },
   "metadata": {
-    "version": "1.17.0"
+    "version": "1.18.0"
   },
   "plugins": [
     {
       "name": "companion-core",
       "source": "./plugins/companion-core",
       "description": "Core workflow: preflight checklist, project memory, architecture map / knowledge graph, code reuse, clean code, testing, documentation, Git/TFS, token economy, learning loop.",
-      "version": "1.14.1",
+      "version": "1.15.0",
       "category": "development"
     },
     {
@@ -48,7 +48,7 @@
       "name": "companion-lsp",
       "source": "./plugins/companion-lsp",
       "description": "Language servers (C#, JS/TS, CSS, HTML, Razor/Blazor markup) and a code-intel skill: definitions, references and diagnostics instead of grep.",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "development"
     }
   ]
